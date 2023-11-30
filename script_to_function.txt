@@ -1,0 +1,37 @@
+
+You can transform the code snippet into a function by wrapping the code in a function definition. Here is an example of how you can do it:
+
+import sqlite3
+
+from main import path
+
+def update_db():
+    # connect to the database
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+
+    # get the medicine name from user input
+    medicine = input("Enter the name of the medicine: ")
+
+    # get the number of pills to be removed from drug_container from user input
+    num_pills_removed = int(
+        input("Enter the number of pills to be removed from drug container: ")
+    )
+
+    # confirm with the user before updating the database
+    confirmation = input(
+        "Are you sure you want to remove {} pills from the drug container for {}? (y/n)".format(  # noqa: E501
+            num_pills_removed, medicine
+        )
+    )
+    if confirmation.lower() == "y":
+        c.execute(
+            "UPDATE user_drugs SET drug_container=drug_container-? WHERE medicine=?",  # noqa: E501
+            (num_pills_removed, medicine),
+        )
+        conn.commit()
+        print("Drug container for {} has been updated.".format(medicine))
+    else:
+        print("Drug container for {} was not updated.".format(medicine))
+
+    conn.close()

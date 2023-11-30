@@ -1,0 +1,19 @@
+Let´s make the process of refilling more clear in order to change the code to be in tune:
+
+  last_updated           medicine  stock_medicine_box  drug_dosage prescription_valid_until  drug_container
+0   07/05/2023          Losartana                  30            2               30/05/2023              0
+1   07/05/2023                AAS                 120            1               30/05/2023              78
+2   07/05/2023         Anlodipino                  30            1               30/05/2023               9
+3   07/05/2023  Hidroclorotiazida                  30            1               30/05/2023               4
+4   07/05/2023      Atorvastatina                  30            1               30/05/2023               4
+
+In the table 'medic' above the 'stock_medicine_box' has medicine boxes to supply 'drug_container' as soon as it became zero.
+
+The following medicines - Losartana , Anlodipino and Atorvastatina has in their boxes pills_pack that allow us to refill the drug_container in this way:
+Losartana : 2 pills_pack  - 2 x 15 pills => It allowed us to refil 2 times - each one with one pills_pack with 15 pills;
+Anlodipino: same as Losartana;
+Atorvastatina: 3 pills_pack - 3 x 10 pills => It allowed us to refil 3 times  - each one with one pills_pack with 10 pills;
+AAS and Hidroclorotiazida  - 
+
+
+I hope it´s clarify the process.

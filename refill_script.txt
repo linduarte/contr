@@ -1,0 +1,73 @@
+This is medic table - drug_container for Losartana and Atorvastatina is '0'.
+
+```
+  last_updated           medicine  stock_medicine_box  drug_dosage prescription_valid_until  drug_container
+0   07/05/2023          Losartana                  30            2               30/05/2023               0
+1   07/05/2023                AAS                 120            1               30/05/2023              78
+2   07/05/2023         Anlodipino                  30            1               30/05/2023               9
+3   07/05/2023  Hidroclorotiazida                  30            1               30/05/2023               4
+4   07/05/2023      Atorvastatina                  30            1               30/05/2023               0
+
+```
+
+```
+# refill_container.py
+
+import sqlite3
+
+from main import path
+
+# connect to the database
+conn = sqlite3.connect(path)
+c = conn.cursor()
+
+# select all the rows from the table
+c.execute("SELECT * FROM medic")
+rows = c.fetchall()
+
+# loop through each row to check if drug_container needs to be refilled
+for row in rows:
+    pills_per_pack = 0  # initialize pills_per_pack to zero
+    if row[4] == 0:  # check if drug_container is empty
+        if row[1] == "Losartana":
+            pills_per_pack = 15
+        elif row[1] == "AAS":
+            pills_per_pack = 120
+        elif row[1] == "Anlodipino":
+            pills_per_pack = 15
+        elif row[1] == "Hidroclorotiazida":
+            pills_per_pack = 30
+        elif row[1] == "Atorvastatina":
+            pills_per_pack = 10
+
+        packs_needed = (
+            row[2] // pills_per_pack
+        )  # calculate the number of packs needed to refill drug_container
+        if packs_needed > 0:
+            c.execute(
+                "UPDATE medic SET drug_container=?, stock_medicine_box=? WHERE id=?",  # noqa: E501
+                (
+                    packs_needed * pills_per_pack,
+                    row[2] - packs_needed * pills_per_pack,
+                    row[0],
+                ),
+            )
+
+            # check if stock_medicine_box is now zero and print an alert if it is # noqa: E501
+            if row[2] - packs_needed * pills_per_pack == 0:
+                print(
+                    "ALERT: Stock for {} has run out. Please refill the stock.".format(  # noqa: E501
+                        row[1]
+                    )
+                )
+
+conn.commit()
+conn.close()
+
+
+
+```
+
+After running refill_container.py none of the drug_container for respective drugs where rifilled.
+
+Could you check the code?

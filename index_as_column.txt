@@ -1,0 +1,17 @@
+Yes, you can create a table with one of the columns as the name of your index that you'll set up with 'CREATE INDEX' later. 
+
+Here's an example:
+
+```sql
+CREATE TABLE my_table (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    my_index_column TEXT
+);
+
+CREATE INDEX my_index ON my_table(my_index_column);
+```
+
+In this example, we create a table called `my_table` with three columns: `id`, `name`, and `my_index_column`. We then create an index called `my_index` on the `my_index_column` column.
+
+I hope this helps. Let me know if you have any other questions.
