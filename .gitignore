@@ -1,3 +1,6 @@
 # created by virtualenv automatically
 Lib
 Scripts
+requirements.txt
+# Ignore .vscode/settings.json on all branches
+.vscode/settings.json
